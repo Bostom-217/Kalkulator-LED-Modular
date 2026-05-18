@@ -1,0 +1,52 @@
+
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Kalkulator LED</title>
+<style>
+body{font-family:Arial;background:#eef2f7;padding:20px}
+.container{max-width:950px;margin:auto;background:#fff;padding:25px;border-radius:16px}
+input,select,button{width:100%;padding:10px;margin:8px 0;box-sizing:border-box}
+button{background:#0066cc;color:#fff;border:none}
+.table-wrap{overflow-x:auto} table{width:100%;border-collapse:collapse}
+th,td{border:1px solid #ddd;padding:10px} th{background:#f3f3f3}
+</style></head><body>
+<div class="container">
+<h2>Kalkulator LED Display</h2>
+<select id="module">
+<option value="320x160">320 × 160</option>
+<option value="320x180">320 × 180</option>
+</select>
+
+<select id="pitch">
+<option value="1.25">P1.2</option><option value="1.53">P1.5</option>
+<option value="2">P2</option><option value="2.5">P2.5</option><option value="4">P4</option>
+</select>
+
+<input id="panjang" placeholder="Panjang bidang (mm)">
+<input id="lebar" placeholder="Lebar bidang (mm)">
+<button onclick="hitung()">Hitung</button>
+
+<div class="table-wrap">
+<table id="hasil" style="display:none">
+<tr><th>Parameter</th><th>Hasil</th></tr>
+<tr><td>Ukuran Module</td><td id="m"></td></tr>
+<tr><td>Resolusi</td><td id="r"></td></tr>
+<tr><td>Jumlah Module</td><td id="jm"></td></tr>
+<tr><td>Total Module</td><td id="tm"></td></tr>
+<tr><td>Ukuran Inch</td><td id="inch"></td></tr>
+</table></div></div>
+
+<script>
+function hitung(){
+ let mod=module.value.split('x'); let mp=+mod[0], ml=+mod[1];
+ let p=+panjang.value,l=+lebar.value,pitchVal=+pitch.value;
+ let rx=Math.floor(p/pitchVal), ry=Math.floor(l/pitchVal);
+ let jx=Math.floor(p/mp), jy=Math.floor(l/ml);
+ let ukuran=(Math.sqrt(p*p+l*l)/25.4).toFixed(1);
+
+ m.innerHTML=module.value+" mm";
+ r.innerHTML=rx+" × "+ry;
+ jm.innerHTML=jx+" × "+jy;
+ tm.innerHTML=(jx*jy)+" pcs";
+ inch.innerHTML=ukuran+" inch";
+ hasil.style.display='table';
+}
+</script></body></html>
