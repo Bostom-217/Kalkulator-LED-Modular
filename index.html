@@ -2,23 +2,24 @@
 <!DOCTYPE html><html><head><meta charset="UTF-8"><title>Kalkulator LED</title>
 <style>
 body{font-family:Arial;background:#eef2f7;padding:20px}
-.container{max-width:950px;margin:auto;background:#fff;padding:25px;border-radius:16px}
-input,select,button{width:100%;padding:10px;margin:8px 0;box-sizing:border-box}
+.container{max-width:900px;margin:auto;background:#fff;padding:25px;border-radius:18px;box-shadow:0 2px 12px rgba(0,0,0,.1)}
+input,select,button{width:100%;padding:12px;margin:8px 0;box-sizing:border-box;border:1px solid #ccc;border-radius:8px}
 button{background:#0066cc;color:#fff;border:none}
-.table-wrap{overflow-x:auto} table{width:100%;border-collapse:collapse}
-th,td{border:1px solid #ddd;padding:10px} th{background:#f3f3f3}
+.table-wrap{overflow-x:auto;margin-top:15px}
+table{width:100%;border-collapse:collapse;min-width:500px}
+th,td{padding:10px;border:1px solid #ddd} th{background:#f4f4f4}
+h2{text-align:center}
 </style></head><body>
 <div class="container">
 <h2>Kalkulator LED Display</h2>
-<select id="module">
-<option value="320x160">320 × 160</option>
-<option value="320x180">320 × 180</option>
-</select>
+<label>Modular</label>
+<select id="module"><option value="320x160">320 × 160</option><option value="320x180">320 × 180</option></select>
 
-<select id="pitch">
-<option value="1.25">P1.2</option><option value="1.53">P1.5</option>
-<option value="2">P2</option><option value="2.5">P2.5</option><option value="4">P4</option>
-</select>
+<label>Cabinet</label>
+<select id="cabinet"><option value="640x480">640 × 480</option><option value="640x360">640 × 360</option></select>
+
+<label>Pitch</label>
+<select id="pitch"><option value="1.25">P1.2</option><option value="1.53">P1.5</option><option value="2">P2</option><option value="2.5">P2.5</option><option value="4">P4</option></select>
 
 <input id="panjang" placeholder="Panjang bidang (mm)">
 <input id="lebar" placeholder="Lebar bidang (mm)">
@@ -27,26 +28,28 @@ th,td{border:1px solid #ddd;padding:10px} th{background:#f3f3f3}
 <div class="table-wrap">
 <table id="hasil" style="display:none">
 <tr><th>Parameter</th><th>Hasil</th></tr>
-<tr><td>Ukuran Module</td><td id="m"></td></tr>
+<tr><td>Modular</td><td id="m"></td></tr>
+<tr><td>Cabinet</td><td id="c"></td></tr>
 <tr><td>Resolusi</td><td id="r"></td></tr>
 <tr><td>Jumlah Module</td><td id="jm"></td></tr>
+<tr><td>Jumlah Cabinet</td><td id="jc"></td></tr>
 <tr><td>Total Module</td><td id="tm"></td></tr>
 <tr><td>Ukuran Inch</td><td id="inch"></td></tr>
-</table></div></div>
+</table>
+</div></div>
 
 <script>
 function hitung(){
- let mod=module.value.split('x'); let mp=+mod[0], ml=+mod[1];
- let p=+panjang.value,l=+lebar.value,pitchVal=+pitch.value;
- let rx=Math.floor(p/pitchVal), ry=Math.floor(l/pitchVal);
- let jx=Math.floor(p/mp), jy=Math.floor(l/ml);
- let ukuran=(Math.sqrt(p*p+l*l)/25.4).toFixed(1);
-
- m.innerHTML=module.value+" mm";
- r.innerHTML=rx+" × "+ry;
- jm.innerHTML=jx+" × "+jy;
- tm.innerHTML=(jx*jy)+" pcs";
- inch.innerHTML=ukuran+" inch";
- hasil.style.display='table';
+let md=module.value.split('x'), cb=cabinet.value.split('x');
+let p=+panjang.value,l=+lebar.value,pt=+pitch.value;
+let jx=Math.floor(p/md[0]), jy=Math.floor(l/md[1]);
+m.innerHTML=module.value+" mm";
+c.innerHTML=cabinet.value+" mm";
+r.innerHTML=Math.floor(p/pt)+" × "+Math.floor(l/pt);
+jm.innerHTML=jx+" × "+jy;
+jc.innerHTML=Math.floor(p/cb[0])+" × "+Math.floor(l/cb[1]);
+tm.innerHTML=(jx*jy)+" pcs";
+inch.innerHTML=(Math.sqrt(p*p+l*l)/25.4).toFixed(1)+" inch";
+hasil.style.display='table';
 }
 </script></body></html>
